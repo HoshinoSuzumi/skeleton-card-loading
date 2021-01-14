@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        :root {
+            --loading-gray: #ededed;
+        }
+
+        body {
+            background-color: #f6f6f6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 16px;
+        }
+
+        .card {
+            width: 320px;
+            border-radius: 6px;
+            background-color: #fff;
+            overflow: hidden;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, .06);
+        }
+
+        .content {
+            padding: 2rem 1.8rem;
+        }
+
+        .content h4 {
+            margin: 0 0 1rem;
+            font-size: 1.6rem;
+            line-height: 1.6rem;
+        }
+
+        .content .description {
+            font-size: 1rem;
+            line-height: 1.4rem;
+        }
+
+        .loading h4,
+        .loading .description {
+            background-color: var(--loading-gray);
+            background: linear-gradient(100deg,
+                    rgba(255, 255, 255, 0) 40%,
+                    rgba(255, 255, 255, .5) 50%,
+                    rgba(255, 255, 255, 0) 60%) var(--loading-gray);
+            background-size: 200% 100%;
+            background-position-x: 180%;
+            animation: 1s loading ease-in-out infinite;
+        }
+
+        .loading h4 {
+            min-height: 1.5rem;
+            border-radius: 4px;
+        }
+
+        .loading .description {
+            min-height: 3.8rem;
+            border-radius: 4px;
+            animation-delay: .03s;
+        }
+
+        @keyframes loading {
+            to {
+                background-position-x: -20%;
+            }
+        }
+
+        .btn {
+            appearance: none;
+            outline: none;
+            margin: 1rem 0 0;
+            width: 320px;
+            color: rgba(123, 104, 238, .8);
+            padding: 1rem;
+            font-size: 1rem;
+            font-weight: bolder;
+            cursor: pointer;
+            border-radius: 6px;
+            background-color: transparent;
+            border: rgba(123, 104, 238, .8) 3px solid;
+            transition: all .3s ease-in-out, transform .1s ease-in-out;
+        }
+
+        .btn:hover {
+            color: #fff;
+            border-color: rgba(123, 104, 238, 1);
+            background-color: mediumslateblue;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, .06);
+        }
+
+        .btn:active {
+            transform: scale(.98);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card loading">
+        <div class="content">
+            <h4></h4>
+            <div class="description"></div>
+        </div>
+    </div>
+    <button class="btn">SWITCH</button>
+
+    <script>
+        const props = {
+            $loading: document.querySelector('.card').classList.contains('loading'),
+            get loading() {
+                return this.$loading;
+            },
+            set loading(val) {
+                val ? document.querySelector('.card').classList.add('loading') : document.querySelector('.card').classList.remove('loading');
+                this.$loading = val;
+            },
+            $title: document.querySelector('.content h4').textContent,
+            get title() {
+                return this.$title;
+            },
+            set title(val) {
+                this.$title = document.querySelector('.content h4').textContent = val;
+            },
+            $description: document.querySelector('.description').textContent,
+            get description() {
+                return this.$description;
+            },
+            set description(val) {
+                this.$description = document.querySelector('.description').textContent = val;
+            },
+        };
+
+        let elemBtn = document.querySelector('.btn');
+
+        elemBtn.onclick = (e) => {
+            props.loading = !props.loading;
+            props.title = props.loading ? '' : 'Lorem Ipsum';
+            props.description = props.loading ? '' : 'Aliqua deserunt adipisicing minim culpa nostrud ipsum deserunt adipisicing irure non.';
+        }
+    </script>
+</body>
+
+</html>
